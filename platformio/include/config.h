@@ -35,7 +35,9 @@
 // (The reTerminal E1001 build defines both board flags: the E1002 flag for
 //  the shared E-series mainboard quirks, plus E1001 to swap the panel for
 //  its 7.5in monochrome one -- a GDEY075T7-class panel, i.e. DISP_BW_V2.)
-#if defined(BOARD_RETERMINAL_E1001)
+#if defined(BOARD_XTEINK_X3)
+  #define DISP_BW_X3
+#elif defined(BOARD_RETERMINAL_E1001)
   #define DISP_BW_V2
 #elif defined(BOARD_RETERMINAL_E1002)
   #define DISP_7C_E6
@@ -62,6 +64,9 @@
 //  selected automatically when building with -e seeed_reterminal_e1002.)
 #ifdef BOARD_RETERMINAL_E1002
   #define SENSOR_SHT4X
+#elif defined(BOARD_XTEINK_X3)
+  // The X3 has no environment sensor; the indoor widgets show "--".
+  #define SENSOR_NONE
 #else
 #define SENSOR_BME280
 // #define SENSOR_BME680

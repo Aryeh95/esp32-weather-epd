@@ -1,0 +1,6 @@
+{
+  "name": "xteink-x3-epd",
+  "version": "1.0.0",
+  "description": "Vendored FreeInk SDK panel drivers for the Xteink X3 (MIT) plus a GxEPD2-style facade",
+  "license": "MIT"
+}

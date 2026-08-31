@@ -52,6 +52,12 @@
   extern GxEPD2_BW<GxEPD2_750,
                    GxEPD2_750::HEIGHT> display;
 #endif
+#ifdef DISP_BW_X3
+  #define DISP_WIDTH  792
+  #define DISP_HEIGHT 528
+  #include <X3Display.h>
+  extern X3Display display;
+#endif
 #ifdef DISP_7C_E6
   #define DISP_WIDTH  800
   #define DISP_HEIGHT 480

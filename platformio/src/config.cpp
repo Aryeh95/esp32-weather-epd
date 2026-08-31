@@ -26,7 +26,28 @@
 //       board's pinout to ensure you avoid using a pin with this shared 
 //       functionality.
 //
-#ifdef BOARD_RETERMINAL_E1002
+#ifdef BOARD_XTEINK_X3
+// Xteink X3 -- fixed internal wiring. The display pins live in the vendored
+// FreeInk BoardConfig profile (lib/xteink-x3-epd) and are consumed by the
+// X3Display facade, so the PIN_EPD_* values here are informational only.
+const uint8_t PIN_BAT_ADC  = PIN_UNUSED; // battery via BQ27220 fuel gauge (I2C)
+const uint8_t PIN_BAT_EN   = PIN_UNUSED;
+const uint8_t PIN_BTN_PORTAL  = PIN_UNUSED; // buttons are on an ADC ladder
+const uint8_t PIN_BTN_REFRESH = PIN_UNUSED;
+const uint8_t PIN_EPD_BUSY = 6;
+const uint8_t PIN_EPD_CS   = 21;
+const uint8_t PIN_EPD_RST  = 5;
+const uint8_t PIN_EPD_DC   = 4;
+const uint8_t PIN_EPD_SCK  = 8;
+const uint8_t PIN_EPD_MISO = PIN_UNUSED;
+const uint8_t PIN_EPD_MOSI = 10;
+const uint8_t PIN_EPD_PWR  = PIN_UNUSED;
+// BQ27220 fuel gauge I2C (shared with the X3's RTC/IMU bus)
+const uint8_t PIN_BME_SDA = 20;
+const uint8_t PIN_BME_SCL = 0;
+const uint8_t PIN_BME_PWR = PIN_UNUSED;
+const uint8_t BME_ADDRESS = 0x55;        // BQ27220 fuel gauge address
+#elif defined(BOARD_RETERMINAL_E1002)
 // Seeed reTerminal E1002 -- fixed internal wiring, do not change.
 // (Sources: Seeed wiki "Arduino Cookbook" pages for the reTerminal E Series.)
 // ADC pin used to measure battery voltage (GPIO1 = ADC1_CH0, 1:2 divider).

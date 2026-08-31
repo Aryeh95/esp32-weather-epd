@@ -74,6 +74,9 @@
                PIN_EPD_BUSY));
 #endif
 
+#ifdef DISP_BW_X3
+  X3Display display;
+#endif
 #ifdef DISP_7C_E6
   GxEPD2_7C<GxEPD2_730c_GDEP073E01_Patient,
             GxEPD2_730c_GDEP073E01_Patient::HEIGHT / 4> display(

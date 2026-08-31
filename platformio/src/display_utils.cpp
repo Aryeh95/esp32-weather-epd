@@ -28,6 +28,7 @@
 #include "_strftime.h"
 #include "api_response.h"
 #include "config.h"
+#include <Wire.h>
 #include "display_utils.h"
 
 // icon header files
@@ -43,6 +44,23 @@
  */
 uint32_t readBatteryVoltage()
 {
+#ifdef BOARD_XTEINK_X3
+  // The X3 has no battery divider on an ADC pin; its BQ27220 fuel gauge
+  // (I2C 0x55, SDA20/SCL0) reports the cell voltage directly in mV
+  // (Voltage() command, register 0x08, little-endian).
+  Wire.begin(PIN_BME_SDA, PIN_BME_SCL, 400000);
+  uint32_t mv = 0;
+  Wire.beginTransmission(BME_ADDRESS);
+  Wire.write(0x08);
+  if (Wire.endTransmission(false) == 0
+      && Wire.requestFrom(static_cast<int>(BME_ADDRESS), 2) == 2)
+  {
+    mv = Wire.read();
+    mv |= static_cast<uint32_t>(Wire.read()) << 8;
+  }
+  Wire.end();
+  return mv;
+#else
   esp_adc_cal_characteristics_t adc_chars;
   // __attribute__((unused)) disables compiler warnings about this variable
   // being unused (Clang, GCC) which is the case when DEBUG_LEVEL == 0.
@@ -98,6 +116,7 @@ uint32_t readBatteryVoltage()
   batteryVoltage *= 2;
   return batteryVoltage;
 #endif // CONFIG_IDF_TARGET_ESP32S3
+#endif // BOARD_XTEINK_X3
 } // end readBatteryVoltage
 
 /* Returns battery percentage, rounded to the nearest integer.
@@ -1828,6 +1847,9 @@ const char *getWifiStatusPhrase(wl_status_t status)
  */
 void disableBuiltinLED()
 {
+#ifdef BOARD_XTEINK_X3
+  return; // no user LED on the X3
+#endif
 #ifdef BOARD_RETERMINAL_E1002
   // The XIAO module's LED_BUILTIN define is GPIO21, which on this board is
   // the battery-measure enable pin -- holding it low breaks the battery
